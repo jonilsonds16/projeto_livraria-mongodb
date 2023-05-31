@@ -6,7 +6,6 @@ class CategoriaDAO:
 
     def __init__(self):
         self.__client_factory: ClientFactory = ClientFactory()
-        self.__categorias: list[Categoria] = list()
 
     def listar(self) -> list[Categoria]:
         categorias = list()

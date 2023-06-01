@@ -49,3 +49,9 @@ class EditoraDAO:
             edt.id = resultado['_id']
         client.close()
         return edt
+
+    def adicionar_muitos(self, lista_editoras: list[dict]):
+        client = self.__client_factory.get_client()
+        db = client.livraria
+        db.editoras.insert_many(lista_editoras)
+        client.close()

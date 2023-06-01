@@ -1,5 +1,6 @@
 from dao.editora_dao import EditoraDAO
 from model.editora import Editora
+from utils import editoras_csv
 
 class EditoraService:
 
@@ -16,6 +17,8 @@ class EditoraService:
                 '2 - Adicionar nova editora\n'
                 '3 - Excluir editora\n'
                 '4 - Ver categoria por Id\n'
+                '5 - Inserir dados do CSV\n'
+                '6 - Gerar CSV de editoras\n'
                 '0 - Voltar ao menu anterior\n')
         escolha = input('Digite a opção: ')
 
@@ -29,6 +32,10 @@ class EditoraService:
             self.remover()
         elif escolha == '4':
             self.mostrar_por_id()
+        elif escolha == '5':
+            self.inserir_csv()
+        elif escolha == '6':
+            self.gerar_csv()
         else:
             print('Opção inválida! Por favor, tente novamente!')
 
@@ -83,7 +90,7 @@ class EditoraService:
         input('Pressione uma tecla para continuar...')
 
     def mostrar_por_id(self):
-        print('\Editora por Id...')
+        print('Editora por Id...')
 
         try:
             id = input('Digite o Id da editora para buscar: ')
@@ -96,5 +103,33 @@ class EditoraService:
         except Exception as e:
             print(f'Erro ao exibir editora! - {e}')
             return     
+        
+        input('Pressione uma tecla para continuar...')
+
+    def inserir_csv(self):
+        print('Inserirndo editoras CSV...')
+
+        try:
+            nome_arquivo = input('Digite o nome do arquivo CSV: ')
+            lista_editoras = editoras_csv.ler_csv_e_gera_uma_lista_de_dict(nome_arquivo)
+            self.__editora_dao.adicionar_muitos(lista_editoras)
+            print('Editoras do CSV adicionandas com sucesso!')
+        except Exception as e:
+            print(f'Erro ao inserir editoras do CSV! - {e}')
+            return
+        
+        input('Pressione uma tecla para continuar...')
+
+    def gerar_csv(self):
+        print('Gerando CSV de editoras...')
+
+        try:
+            nome_novo_csv = input('Digite o nome do novo arquivo CSV: ')
+            lista_de_editoras: list[Editora] = self.__editora_dao.listar()
+            editoras_csv.criando_csv_usando_lista_de_editoras(lista_de_editoras, nome_novo_csv)
+            print('Novo CSV de editoras gerando!')
+        except Exception as e:
+            print(f'Erro ao gerar CSV de editoras! - {e}')
+            return
         
         input('Pressione uma tecla para continuar...')

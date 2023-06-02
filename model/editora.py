@@ -39,3 +39,10 @@ class Editora:
     @telefone.setter
     def telefone(self, telefone):
         self.__telefone = telefone
+
+    def dump(self) -> dict:
+        return {
+            'nome': self.__nome, 
+            'endereco': self.__endereco, 
+            'telefone': self.__telefone
+        }
